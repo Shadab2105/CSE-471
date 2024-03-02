@@ -22,7 +22,7 @@ MODULE1: LOGIN SIGNUP AND HOMEPAGE (5)
 
 
 
-MODULE2: COMPETITION MANAGEMENT (6)
+MODULE2: COMPETITION MANAGEMENT (5)
 • Further Authentication for competition hosts
 * More details provided and authorization from admin required.
 
@@ -38,8 +38,8 @@ MODULE2: COMPETITION MANAGEMENT (6)
 * Ability to book locations saved in the database. 
 
 
-• Monetary Transactions gateway
-* Hosts can pay for locations. Users can pay for entry for paid comps. 
+# • Monetary Transactions gateway
+# * Hosts can pay for locations. Users can pay for entry for paid comps. 
 
 
 • Online Submissions 
