@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create and Display Multiple Choice Questions</title>
+<link rel="stylesheet" href="newstyles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Create and Display Multiple Choice Questions</h1>
+
+    <a href="mcq2.html">User side view</a>
+
+    <div id="questions-container"></div>
+
+    <div class="question-container" id="question-container">
+        <h2>Create a Multiple Choice Question</h2>
+        <form id="question-form">
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" required><br>
+            
+            <label for="option1-text">Option 1:</label>
+            <input type="text" id="option1-text" name="option1-text" required><br>
+            
+            <label for="option2-text">Option 2:</label>
+            <input type="text" id="option2-text" name="option2-text" required><br>
+            
+            <label for="option3-text">Option 3:</label>
+            <input type="text" id="option3-text" name="option3-text" required><br>
+            
+            <label for="option4-text">Option 4:</label>
+            <input type="text" id="option4-text" name="option4-text" required><br>
+            
+            <label for="correct-answer">Correct Answer:</label>
+            <select id="correct-answer" name="correct-answer" required>
+                <option value="0">Option 1</option>
+                <option value="1">Option 2</option>
+                <option value="2">Option 3</option>
+                <option value="3">Option 4</option>
+            </select><br>
+            
+            <button type="submit">Submit Question</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Retrieve stored questions from local storage or initialize an empty array
+    let storedQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+
+    // Function to display the questions
+    function displayQuestions() {
+        // Get the questions container
+        const questionsContainer = document.getElementById('questions-container');
+
+        // Clear previous content
+        questionsContainer.innerHTML = '';
+
+        // Loop through each stored question
+        storedQuestions.forEach((questionData, index) => {
+            // Create a div to hold the question and its delete button
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            // Construct the HTML for the question and delete button
+            questionDiv.innerHTML = `
+                <h2>Question ${index + 1}</h2>
+                <p><strong>Question:</strong> ${questionData.question}</p>
+                <form>
+                    ${questionData.options.map((option, optionIndex) => `
+                        <input type="radio" id="option${index}-${optionIndex}" name="option${index}" value="${optionIndex}">
+                        <label for="option${index}-${optionIndex}">${option}</label><br>
+                    `).join('')}
+                </form>
+                <button class="delete-btn" onclick="deleteQuestion(${index})">Delete</button>
+            `;
+
+            // Append the question div to the questions container
+            questionsContainer.appendChild(questionDiv);
+        });
+    }
+
+    // Function to delete a question
+    function deleteQuestion(index) {
+        // Remove the question at the specified index from the array
+        storedQuestions.splice(index, 1);
+
+        // Update local storage with the modified array
+        localStorage.setItem('questions', JSON.stringify(storedQuestions));
+
+        // Re-display the questions
+        displayQuestions();
+    }
+
+    // Function to handle form submission
+    document.getElementById('question-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Retrieve form data
+        const question = document.getElementById('question').value;
+        const options = [
+            document.getElementById('option1-text').value,
+            document.getElementById('option2-text').value,
+            document.getElementById('option3-text').value,
+            document.getElementById('option4-text').value
+        ];
+        const correctAnswerIndex = document.getElementById('correct-answer').value;
+
+        // Create a question object
+        const questionData = {
+            question: question,
+            options: options,
+            correctAnswer: correctAnswerIndex
+        };
+
+        // Add the question to the array
+        storedQuestions.push(questionData);
+
+        // Update local storage
+        localStorage.setItem('questions', JSON.stringify(storedQuestions));
+
+        // Re-display the questions
+        displayQuestions();
+
+        // Reset the form
+        this.reset();
+    });
+
+    // Display the initial questions
+    displayQuestions();
+</script>
+
+</body>
+</html>
+
+

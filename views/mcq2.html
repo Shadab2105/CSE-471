@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz</title>
+<link rel="stylesheet" href="newstyles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Quiz</h1>
+
+    <div id="questions-container"></div>
+</div>
+
+<script>
+    // Retrieve stored questions from local storage
+    const storedQuestions = JSON.parse(localStorage.getItem('questions'));
+
+    // Function to display the questions
+    function displayQuestions() {
+        // Get the questions container
+        const questionsContainer = document.getElementById('questions-container');
+
+        // Clear previous content
+        questionsContainer.innerHTML = '';
+
+        // Loop through each stored question
+        storedQuestions.forEach((questionData, index) => {
+            // Create a div to hold the question
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+
+            // Construct the HTML for the question
+            questionDiv.innerHTML = `
+                <h2>Question ${index + 1}</h2>
+                <p><strong>Question:</strong> ${questionData.question}</p>
+                <form id="form${index}">
+                    ${questionData.options.map((option, optionIndex) => `
+                        <input type="radio" id="option${index}-${optionIndex}" name="option${index}" value="${option}">
+                        <label for="option${index}-${optionIndex}">${option}</label><br>
+                    `).join('')}
+                </form>
+                <button onclick="submitAnswer(${index})">Submit Answer</button>
+                <p id="result${index}" style="display: none;"></p>
+            `;
+
+            // Append the question div to the questions container
+            questionsContainer.appendChild(questionDiv);
+        });
+    }
+
+    // Function to submit answer
+    function submitAnswer(index) {
+        // Get the form element
+        const form = document.getElementById(`form${index}`);
+        // Get the selected option value
+        const selectedOption = form.querySelector(`input[name="option${index}"]:checked`).value;
+        // Get the correct answer for this question
+        const correctAnswer = storedQuestions[index].correctAnswer;
+
+        // Compare the selected option with the correct answer
+        if (selectedOption === correctAnswer) {
+            document.getElementById(`result${index}`).textContent = 'Correct!';
+            document.getElementById(`result${index}`).style.color = 'green';
+        } else {
+            document.getElementById(`result${index}`).textContent = 'Incorrect!';
+            document.getElementById(`result${index}`).style.color = 'red';
+        }
+
+        // Show the result
+        document.getElementById(`result${index}`).style.display = 'block';
+    }
+
+    // Display the questions
+    displayQuestions();
+</script>
+
+</body>
+</html>
