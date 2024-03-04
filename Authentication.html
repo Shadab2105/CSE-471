@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Host Authentication</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('Competition\ image.webp'); /* Replace 'background-image.jpg' with the path to your image */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .authentication-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 90%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="authentication-container">
+        <h2>Competition Host Authentication</h2>
+        <p>Please provide your credentials for further authentication:</p>
+        <form action="/authenticate" method="post">
+            <!-- Add form fields for authentication -->
+            <label for="username">Name:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="username">E-mail:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="username">Competition Title:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="details">Purpose of competition:</label>
+            <textarea id="details" name="details" rows="4" required></textarea>
+            <button type="submit">Authenticate</button>
+        </form>
+    </div>
+</body>
+</html>

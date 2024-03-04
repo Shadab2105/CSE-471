@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competition Creator Authentication</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: url('./Competition\ image.webp') no-repeat center center fixed; 
+    background-size: cover; /* Cover the entire page */
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  h2 {
+    color: #333;
+  }
+  .info {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="email"],
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8; /* Light gray background for read-only fields */
+    pointer-events: none; /* Make the input fields read-only */
+  }
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8; /* Light gray background for read-only fields */
+    pointer-events: none; /* Make the textarea read-only */
+  }
+  button {
+    background-color: #5cb85c; /* Green color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #4cae4c; /* Darker green on hover */
+  }
+  .deny-button {
+    background-color: #d9534f; /* Red color */
+  }
+  .deny-button:hover {
+    background-color: #c9302c; /* Darker red on hover */
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Verify Competition Host Authorization</h2>
+  <div class="info">
+    <!-- Display the creator's name, email, title, and purpose dynamically, fetched from the authentication process -->
+    <label for="creatorName">Creator's Name:</label>
+    <input type="text" id="creatorName" name="creatorName" value="Pre-filled Creator Name" readonly>
+    <label for="creatorEmail">Creator's Email:</label>
+    <input type="email" id="creatorEmail" name="creatorEmail" value="creator@example.com" readonly>
+    <label for="competitionTitle">Competition Title:</label>
+    <input type="text" id="competitionTitle" name="competitionTitle" value="Pre-filled Competition Title" readonly>
+    <label for="details">Purpose of competition:</label>
+    <textarea id="details" name="details" rows="4" readonly>Pre-filled purpose of competition</textarea>
+  </div>
+  <form action="/submit-authentication" method="POST">
+    <button type="submit" name="action" value="approve">Approve</button>
+    <button type="submit" name="action" value="deny" class="deny-button">Deny</button>
+  </form>
+</div>
+</body>
+</html>
