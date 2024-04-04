@@ -31,32 +31,33 @@
     color: darkblue; 
   }
   </style>
-  <body class="d-flex align-items-center py-4 bg-body-tertiary">
+</head>
+
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+    
+  <main class="form-signin w-100 m-auto">
+    <form action="/sign" method="POST">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
   
-    
-    <main class="form-signin w-100 m-auto">
-      <form action="/sign" method="POST">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-    
-        <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
-          <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
-          <label for="floatingPassword">Password</label>
-        </div>
-    
-        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-    
-        <a class="link" href="./questions.ejs">Forgot Password</a>
-        <a class="link" href="/createaccount.ejs">Signup</a>
-    
-        <p class="mt-5 mb-3 text-body-secondary">© bracu project</p>
-      </form>
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+  
+      <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+  
+      <a class="link" href="./questions.ejs">Forgot Password</a>
+      <a class="link" href="/createaccount.ejs">Signup</a>
+  
+      <p class="mt-5 mb-3 text-body-secondary">© bracu project</p>
+    </form>
   </main>
     
-<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
-</head>
 </html>
