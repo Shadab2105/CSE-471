@@ -27,26 +27,6 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 
 
-app.get("/", (req, res) => {
-  res.render("index1.ejs");
-});
-
-app.get("/competition.ejs", (req, res) => {
-  res.render("competition.ejs");
-});
-app.get("/questions.ejs" , (req, res) => {
-  res.render("questions.ejs");
-});
-
-app.get("/createaccount.ejs" , (req, res) => {
-  res.render("createaccount.ejs");
-  //dekhte hobe jodi email  agei theke ase naki
-  
-});
-app.get("/index.ejs", (req, res) => {
-  res.render("index.ejs");
-
-});
 
 app.use('/', compRoutes);
 

@@ -1,5 +1,30 @@
 const {User, Question, Applicant, Score, Ranking, Submission} = require('../models/schemas');
 
+const get_home = (req, res) => {
+  res.render("index1.ejs");
+};
+
+const get_comp = (req, res) => {
+  res.render("competition.ejs");
+};
+
+const get_quest = (req, res) => {
+  res.render("questions.ejs");
+};
+
+const get_createacc =  (req, res) => {
+  res.render("createaccount.ejs");
+  //dekhte hobe jodi email  agei theke ase naki
+  
+};
+
+
+const get_login = (req, res) => {
+  res.render("index.ejs");
+
+};
+
+
 const post_sign = (req, res) => {
     const userEmail = req.body.email; 
     const userPassword = req.body.password; 
@@ -431,22 +456,27 @@ const post_decwin = (req, res) => {
 
 
 module.exports = {
-    post_sign,
-    post_question,
-    post_account,
-    post_auth,
-    post_admin_auth,
-    post_approve,
-    post_participate, 
-    post_create_comp,
-    post_setques,
-    post_addques,
-    post_submitques,
-    post_viewcomp,
-    post_rate,
-    post_subrev,
-    post_prof,
-    post_judge,
-    post_votesub,
-    post_decwin
+  get_home,
+  get_comp,
+  get_quest,
+  get_createacc,
+  get_login,
+  post_sign,
+  post_question,
+  post_account,
+  post_auth,
+  post_admin_auth,
+  post_approve,
+  post_participate, 
+  post_create_comp,
+  post_setques,
+  post_addques,
+  post_submitques,
+  post_viewcomp,
+  post_rate,
+  post_subrev,
+  post_prof,
+  post_judge,
+  post_votesub,
+  post_decwin
 };
