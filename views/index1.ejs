@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Home Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url('/trophy.jpg'); /* Specify the path to your image */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+        }
+        .container {
+            background: linear-gradient(to bottom, #ffbf80, #ff8c00); /* Gradient background from lighter to darker orange-gold */
+            border-radius: 20px; /* Rounded corners */
+            padding: 20px; /* Add some padding */
+            margin: 120px auto 0; /* Center the container vertically and horizontally */
+            max-width: 400px; /* Limit the width of the container */
+            text-align: center; /* Center the content inside the container */
+        }
+        .header {
+            font-size: 2em;
+            text-align: center; 
+            margin-top: 50px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .button-container {
+            text-align: center;
+        }
+        /* Define the initial styles for the button */
+        .glow-button {
+            background-color: transparent;
+            border: 2px solid #007bff; /* Blue border */
+            color: #007bff; /* Blue text color */
+            padding: 10px 20px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for background-color and box-shadow */
+            position: relative; /* Set position to relative */
+            z-index: 1; /* Ensure button appears above background */
+        }
+
+        /* Define the hover effect for the button */
+        .glow-button:hover {
+            background-color: rgba(0, 123, 255, 0.3); /* Blue hue with alpha (transparency) */
+            box-shadow: 0 0 80px rgba(0, 123, 255, 0.7); /* Larger and more intense blue shadow */
+        }
+
+        .about {
+            margin-top: 100px;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Rankers</h1>
+        </div>
+        <div class="button-container">
+            <a href="/index.ejs" class="glow-button">Login</a>
+            <a href="/createaccount.ejs" class="glow-button">Signup</a>
+        </div>
+
+        <div class="about">
+            <h2>About Rankers</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor nisi ipsa nesciunt, alias quod quas cupiditate, accusamus eveniet blanditiis quisquam impedit accusantium exercitationem cumque sit minus quidem? In, error molestias.</p>
+        </div>
+    </div>
+
+    <script>
+    </script>
+</body>
+</html>

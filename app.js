@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("index1.ejs");
 });
 
 app.get("/competition.ejs", (req, res) => {
