@@ -8,7 +8,7 @@ router.get("/questions.ejs" , compController.get_quest);
 router.get("/createaccount.ejs" , compController.get_createacc);
 router.get("/index.ejs", compController.get_login);
 
-router.post("/sign", compController.post_sign);
+router.post("/home", compController.post_home);
 router.post("/question", compController.post_question);
 router.post("/createaccount", compController.post_account);
 router.post("/authenticate", compController.post_auth);

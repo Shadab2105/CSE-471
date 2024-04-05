@@ -25,7 +25,7 @@ const get_login = (req, res) => {
 };
 
 
-const post_sign = (req, res) => {
+const post_home = (req, res) => {
     const userEmail = req.body.email; 
     const userPassword = req.body.password; 
   
@@ -225,6 +225,7 @@ const post_participate = (req, res) => {
       res.render("participate.ejs", { question: user.question, participant_email:req.body.participant_email ,organiser_email:req.body.organiser_email });
       
   })
+
   };
 
 
@@ -311,7 +312,7 @@ const post_viewcomp = (req, res) => {
     Question.find().exec()
       .then(comps => {
         console.log("Successful Search");
-        res.render('viewcompetitonlist.ejs', { competition: comps ,userEmail:req.body.email});
+        res.render('viewcompetitonlist.ejs', { competition: comps ,userEmail:req.body.email} );
       })
       .catch(err => {
         console.error("Error:", err);
@@ -461,7 +462,7 @@ module.exports = {
   get_quest,
   get_createacc,
   get_login,
-  post_sign,
+  post_home,
   post_question,
   post_account,
   post_auth,

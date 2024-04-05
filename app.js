@@ -7,7 +7,7 @@ const compRoutes = require('./routes/compRoutes');
 
 const app = express();
 const port = 3000;
-mongoose.connect("mongodb+srv://raiyanwasisiddiky:Wasi1to6@471db.75x1hsi.mongodb.net/")
+mongoose.connect("mongodb+srv://raiyanwasisiddiky:Wasi1to6@471db.75x1hsi.mongodb.net/471db")
   .then((result) =>{
     app.listen(port, ()=>{
       console.log(`Server is running on port ${port}`);
