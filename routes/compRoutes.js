@@ -2,29 +2,35 @@ const express = require('express');
 const compController = require('../controllers/compController')
 const router = express.Router();
 
-router.get("/", compController.get_home);
-router.get("/competition.ejs", compController.get_comp);
-router.get("/questions.ejs" , compController.get_quest);
-router.get("/createaccount.ejs" , compController.get_createacc);
-router.get("/index.ejs", compController.get_login);
+router.get('/home', compController.get_home);
+router.get('/applyhost', compController.get_applyhost);
+router.get('/createcomp', compController.get_createcomp);
+router.get('/myComps/:userId', compController.get_myComps);
+router.get('/judgeSubmission/:compId/:announcementIndex/:submissionIndex', compController.get_judgeSubmission);
+router.get('/:id', compController.get_comp);
+router.get('/:compId/addjudges', compController.get_addJudge);
+router.get('/:id/createQuestion', compController.get_createQuestion);
+router.get('/:id/:index', compController.get_announcement);
+router.get('/:compId/:announcementIndex/answerQuestion', compController.get_answerQuestion);
 
-router.post("/home", compController.post_home);
-router.post("/question", compController.post_question);
-router.post("/createaccount", compController.post_account);
-router.post("/authenticate", compController.post_auth);
-router.post("/authenticate-to-admin", compController.post_admin_auth);
-router.post("/approve", compController.post_approve);
-router.post("/participate", compController.post_participate);
-router.post("/createcompetition", compController.post_create_comp);
-router.post("/setquestion", compController.post_setques);
-router.post("/addques", compController.post_addques);
-router.post("/submit_questions", compController.post_submitques);
-router.post("/view-competition", compController.post_viewcomp);
-router.post("/rate", compController.post_rate);
-router.post("/submit-review", compController.post_subrev);
-router.post("/profilepage", compController.post_prof);
-router.post("/judge", compController.post_judge);
-router.post('/vote-for-submission', compController.post_votesub);
-router.post("/declare-winner", compController.post_decwin);
+router.post('/applyhost', compController.post_applyhost);
+router.post('/home', compController.post_createcomp);
+router.post('/join', compController.post_joinCompetition);
+router.post('/upload/:compId', compController.post_submitSubmissionAnswer);
+router.post('/rate/:hostId', compController.post_rate);
+router.post('/scoreMCQ/:compId/:userId', compController.post_scoreMCQ);
+router.post('/scoreSubmission/:compId/:announcementIndex/:submissionIndex/:userId', compController.post_scoreSubmission);
+router.post('/:id', compController.post_announcement);
+router.post('/:competitionId/end', compController.post_endCompetition);
+router.post('/:compId/judgeAccept', compController.post_judgeAccept);
+router.post('/:compId/judgeReject', compController.post_judgeReject);
+router.post('/:compId/createQuestion', compController.post_createQuestion);
+router.post('/:id/:index', compController.post_comment);
+router.post('/:compId/addJudge/:userId', compController.post_requestJudge);
 
-module.exports = router;
+router.delete('/:id/delete', compController.delete_comp);
+router.delete('/:id/:index/delete', compController.delete_announcement);
+router.delete('/:id/:index/:commentIndex/delete', compController.delete_comment);
+
+
+module.exports =router;

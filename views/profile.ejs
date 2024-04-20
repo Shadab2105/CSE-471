@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/profile.css">
+<%- include('./partials/head.ejs') %>
+
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+    <h1><%= profileuser.username %> Profile</h1>
+    <h4>Average Rating: <%= profileuser.avgRating %></h4>
+
+    <% if (user && user._id.toString() !== profileuser._id.toString()) { %>
+        <% if (!user.follows.includes(profileuser._id.toString())) { %>
+            <% if (user.followers.includes(profileuser._id.toString())) { %>
+                <form action="/follow/<%= profileuser._id %>" method="POST">
+                    <button type="submit" class="follow-link">Follow back</button>
+                </form>
+            <% } else { %>
+                <form action="/follow/<%= profileuser._id %>" method="POST">
+                    <button type="submit" class="follow-link">Follow</button>
+                </form>
+            <% } %>
+        <% } else { %>
+            <span class="already-following">Already following</span>
+        <% } %>
+    <% } %>
+    
+    
+    <div class="user-info">
+        <form id="update-form">
+            <div>
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" value="<%= profileuser.fullname %>" required <%= (user && user._id.toString() === profileuser._id.toString()) ? '' : 'disabled' %>>
+            </div>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" value="<%= profileuser.username %>" required <%= (user && user._id.toString() === profileuser._id.toString()) ? '' : 'disabled' %>>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="<%= profileuser.email %>" required <%= (user && user._id.toString() === profileuser._id.toString()) ? '' : 'disabled' %>>
+            </div>
+            <div>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" value="<%= profileuser.dob.toISOString().slice(0, 10) %>" required <%= (user && user._id.toString() === profileuser._id.toString()) ? '' : 'disabled' %>>
+            </div>
+            <div class="joining-date">
+                <label for="joiningDate">Joining Date:</label>
+                <input type="text" id="joiningDate" value="<%= profileuser.joiningDate.toDateString() %>" disabled>
+            </div>
+            <div>
+                <label for="hostAuth">Host Authentication:</label>
+                <input type="checkbox" id="hostAuth" <%= profileuser.hostAuth ? 'checked' : '' %> disabled>
+            </div>
+            
+            <!-- Update Button -->
+            <% if (user && user._id.toString() === profileuser._id.toString()) { %>
+                <button type="submit">Update</button>
+            <% } %>
+        </form>
+
+        <div class="review">
+        <h2>User Reviews</h2>
+            <ul>
+                <% profileuser.reviews.forEach(review => { %>
+                    <li>
+                        <p><strong>Reviewer:</strong> <%= review.reviewerUsername %></p>
+                        <p><strong>Rating:</strong> <%= review.rating %></p>
+                        <p><strong>Content:</strong> <%= review.content %></p>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+        
+        <h2>Hosted Competitions</h2>
+        <% if (profileuser.competitions.length > 0) { %>
+            <ul>
+                <% profileuser.competitions.forEach(competition => { %>
+                    <% if (competition.host.toString() === profileuser._id.toString()) { %>
+                        <div class="competition">
+                            <a class="single" href="/competitions/<%= competition._id %>">
+                                <h3 class="title"><%= competition.title %></h3>
+                            </a>
+                            <p class="genre">Genre: <%= competition.genre %></p>
+                        </div>
+                    <% } %>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No hosted competitions yet</p>
+        <% } %>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+    <script>
+        document.getElementById('update-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect updated information from input fields
+            const fullname = document.getElementById('fullname').value;
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const dob = document.getElementById('dob').value;
+
+
+            // Send an AJAX request to update the user's information
+            fetch('/profile/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullname,
+                    username,
+                    email,
+                    dob
+                })
+            })
+
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update profile');
+                }
+                // Reload the page to reflect the changes
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                // Handle error, show message, etc.
+            });
+        });
+    </script>
+
+</body>
+</html>

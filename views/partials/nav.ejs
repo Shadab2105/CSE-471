@@ -1,22 +1,20 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"><h3>WECLOME <%=nam%> </h3></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/my-competitions">My Competitions</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link avtive" href="./index.ejs" aria-disabled="true">Sign out</a>
-          </li>
-        </ul>
-
-      </div>
+<nav>
+    <div class="site-title">
+        <a href="/competitions/home" class="nav-home"><h1>Rankers</h1></a>
+        <!-- <p>Competition Management site</p> -->
+        <h1>Welcome, <%= user.username %></h1> 
     </div>
+
+    <ul>
+        <% if (user.isAdmin) { %>
+            <li><a href="/admins/adminUsers">Users</a></li>
+            <li><a href="/admins/authenticate">Authenticate Users</a></li>
+        <% } else { %>
+            <li><a href="/profile/<%= user._id %>">Profile</a></li>
+            <li><a href="/competitions/myComps/<%= user._id %>">My Competitions</a></li>
+            <li><a href="/followers/<%= user._id %>">Followers and Followings</a></li>
+            <li><a href="/notifications/<%= user._id %>">Notifications</a></li>
+        <% } %>
+        <li><a href="/signout">Sign Out</a></li>
+    </ul>
 </nav>

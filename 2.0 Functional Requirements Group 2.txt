@@ -33,9 +33,6 @@ MODULE2: COMPETITION MANAGEMENT (5)
 
 • Competition Categories
 * Different competitions are grouped by genres(art, music, coding, sports etc.)
- 
-• Booking locations
-* Ability to book locations saved in the database. 
 
 
 # • Monetary Transactions gateway
@@ -59,8 +56,8 @@ MODULE3: JUDGE PANEL AND VOTING (5)
 * Display rankings of participants based on votes/scores.
 
 
-• Prize management.
-* Hosts can specify and send competition prizes online where applicable(monetary).
+# • Prize management.
+# * Hosts can specify and send competition prizes online where applicable(monetary).
 
 
 • Voting Mechanism

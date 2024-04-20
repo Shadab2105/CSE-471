@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head.ejs') %>
+<link rel="stylesheet" href="/compdets.css">
+<body>
+
+    <%- include('../partials/nav.ejs') %>
+
+    <div class="details content">
+        
+        <h2><%= comp.title %></h2>
+        <h4><a href="/profile/<%= comp.host._id%>"><%= comp.hostUsername %></a></h4>
+        <h5>Host Rating: <%= comp.host.avgRating %></h5>
+        <h5>genre: <%= comp.genre %></h5>
+        <h3>About <%= comp.title %></h3>
+        <div class="content">
+            <p><%= comp.about %></p>
+        </div>
+
+        <% if (comp.finished) { %>
+            <h2><%= comp.title %> has finished!!</h2>
+            <% let userParticipant = false; %>
+            <% comp.participants.forEach(participant => { %>
+                <% if (participant._id.toString() === user._id.toString()) { %>
+                    <% userParticipant = true; %>
+                <% } %>
+            <% }); %>
+            <% if (userParticipant) { %>
+                <button id="rateButton" class="btn">Rate and Review Competition Host</button>
+            <% } %>
+        <% } %>
+        
+        <!-- Popup modal for rating and reviewing competition host -->
+        <div id="rateModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Rate and Review Competition Host</h2>
+                <form id="ratingForm">
+                    <label for="rating">Rating:</label>
+                    <input type="number" id="rating" name="rating" min="1" max="5" required>
+                    <label for="review">Review:</label>
+                    <textarea id="review" name="review" rows="4" cols="50" placeholder="Write your review here..." required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+        <% if (!user.isAdmin && user._id.toString() !== comp.host._id.toString() && !user.competitions.includes(comp._id.toString()) && !comp.finished) { %>
+            <form action="/competitions/join" method="POST">
+                <input type="hidden" name="compId" value="<%= comp._id %>">
+                <button type="submit" class="btn">Join Competition</button>
+            </form>
+        <% } %>
+
+        <% if ((user.isAdmin || user._id.toString() === comp.host._id.toString()) && !comp.finished) { %>
+            <button id="endCompetitionBtn" class="btn">End Competition</button>
+        <% } %>
+
+        <!-- Show delete button only if isAdmin or user._id === host -->
+        <% if (user.isAdmin || user._id.toString() === comp.host._id.toString()) { %>
+            <a class="delete" data-doc="<%= comp._id %>">
+                <img src="/trashcan.svg" alt="delete icon">
+            </a>
+        <% } %>
+
+        <h2>Participants</h2>
+        <ul>
+            <% comp.participants.forEach(participant => { %>
+                <li><a href="/profile/<%= participant._id %>"><%= participant.username %></a></li>
+            <% }); %>
+        </ul>
+
+        <h2>Judges</h2>
+        <ul>
+            <% comp.judges.forEach(judge => { %>
+                <% if (judge.status === "accepted") { %>
+                    <li><a href="/profile/<%= judge.user._id %>"><%= judge.user.username %></a></li>
+                <% } %>
+            <% }); %>
+        </ul>
+
+
+        <!-- Button for adding judges (visible only to hosts) -->
+        <% if (user._id.toString() === comp.host._id.toString()) { %>
+            <a href="/competitions/<%= comp._id %>/addjudges" class="btn add-judge">Add Judges</a>
+        <% } %>
+
+
+        <% if (user._id.toString() === comp.host._id.toString()) { %>
+            <button id="createQuestionBtn" class="btn">Create Question Set</button>
+        <% } %>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="options">
+                    <a href="/competitions/<%= comp._id %>/createQuestion?type=submission" class="left-option">Submission</a>
+                    <div class="line"></div>
+                    <form id="questionTypeForm" class="right-option">
+                        <select id="questionType">
+                            <option value="mcq">MCQ</option>
+                            <!-- <option value="short">Short Question</option> -->
+                        </select>
+                        <button type="submit">Select</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Form for posting text content -->
+        <% if (user.isAdmin || comp.judges.some(judge => judge.user._id.toString() === user._id.toString())) { %>
+            <form action="/competitions/<%= comp._id %>" method="POST">
+                <textarea name="text_content" rows="2" cols="50" placeholder="Post Announcement..." required></textarea>
+                <button type="submit">Post</button>
+            </form>
+        <% } %>
+
+        <!-- Display announcements -->
+        <h2>Announcements</h2>
+        <% if (user.isAdmin || user._id.toString() === comp.host._id.toString() || user.competitions.includes(comp._id.toString()) ) { %>
+            <div class="announcements">
+                <% comp.announcements.forEach((announcement, index) => { %>
+                    <div class="announcement">
+
+                        <h4><a href="/profile/<%= announcement.createdBy._id %>"><%= announcement.createdByUsername %></a></h4>
+
+                        <a class="single" href="/competitions/<%= comp._id %>/<%= index %>">
+                            <p><%= announcement.content %></p>
+                        </a>
+                        <% if (announcement.type === "question") { %>
+                            <h5 class="date left blue-text"> Time Left: <%= getTimeLeft(announcement.questionSet.deadline) %></h5>
+                        <% } %>
+                        
+                        <h5 class="date"><%= getTimeSince(announcement.createdAt) %></h5>
+                        <a class="single" href=" /competitions/<%= comp._id %>/<%= index %> ">
+                            <h5 class="comment">Comments</h5>
+                        </a>
+
+                        <!-- Show delete button only if isAdmin or user._id === host -->
+                        <% if (user.isAdmin || user._id.toString() === comp.host._id.toString()) { %>
+                            <button class="delete-announcement" data-announcement="<%= index %>">
+                                Delete
+                            </button>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <h2>Please join competition to see content</h2>
+        <% } %>
+            
+    </div>
+
+    <%- include('../partials/footer.ejs') %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById("myModal");
+
+            // Check if the modal exists in the DOM
+            if (modal) {
+                // Get the button that opens the modal
+                const btn = document.getElementById("createQuestionBtn");
+
+                // Check if the button exists before setting onclick
+                if (btn) {
+                    // When the user clicks the button, open the modal 
+                    btn.onclick = function () {
+                        modal.style.display = "block";
+                    };
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                };
+
+                // Handle submission of question type form
+                const questionTypeForm = document.getElementById('questionTypeForm');
+                if (questionTypeForm) {
+                    questionTypeForm.addEventListener('submit', function (event) {
+                        event.preventDefault();
+
+                        // Get the selected question type
+                        const selectedType = document.getElementById('questionType').value;
+
+                        // Proceed based on the selected type
+                        if (selectedType === 'mcq') {
+                            const numQuestions = prompt("Please enter the number of MCQ questions:", "1");
+
+                            // If the user provides a valid number, navigate to the next page with the specified number of MCQ questions
+                            if (numQuestions !== null && !isNaN(numQuestions) && numQuestions > 0) {
+                                const compId = '<%= comp._id %>';
+                                window.location.href = `/competitions/${compId}/createQuestion?type=mcq&numQuestions=${numQuestions}`;
+                            }
+                        } else if (selectedType === 'short') {
+                            const numQuestions = prompt("Please enter the number of Short Questions:", "1");
+
+                            // If the user provides a valid number, navigate to the next page with the specified number of Short Questions
+                            if (numQuestions !== null && !isNaN(numQuestions) && numQuestions > 0) {
+                                const compId = '<%= comp._id %>';
+                                window.location.href = `/competitions/${compId}/createQuestion?type=short&numQuestions=${numQuestions}`;
+                            }
+                        }
+                    });
+                }
+            }
+
+    
+            // Add event listener for delete buttons
+            const deleteButtons = document.querySelectorAll('.delete-announcement');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const announcementIndex = button.dataset.announcement;
+                    deleteAnnouncement('<%= comp._id %>', announcementIndex);
+                });
+            });
+    
+            // Add event listener for trashcan
+            const trashcan = document.querySelector('a.delete');
+            if (trashcan) {
+                trashcan.addEventListener('click', (e)=>{
+                    const competitionId = trashcan.dataset.doc;
+                    deleteCompetition(competitionId);
+                });
+            };
+
+
+            // Add event listener for ending competition
+            const endCompetitionBtn = document.getElementById("endCompetitionBtn");
+            if (endCompetitionBtn) {
+                endCompetitionBtn.addEventListener('click', () => {
+                    endCompetition('<%= comp._id %>');
+                });
+            };
+
+            // Add event listener for rating and reviewing competition host
+            const rateButton = document.getElementById("rateButton");
+            if (rateButton) {
+                rateButton.addEventListener('click', () => {
+                    // Open the rating modal
+                    const rateModal = document.getElementById("rateModal");
+                    rateModal.style.display = "block";
+
+                    // Close the modal when the user clicks on the close button
+                    const closeButton = document.querySelector("#rateModal .close");
+                    closeButton.addEventListener('click', () => {
+                        rateModal.style.display = "none";
+                    });
+
+                    // Close the modal when the user clicks anywhere outside of it
+                    window.onclick = function(event) {
+                        if (event.target == rateModal) {
+                            rateModal.style.display = "none";
+                        }
+                    };
+
+                    // Handle form submission
+                    const ratingForm = document.getElementById("ratingForm");
+                    ratingForm.addEventListener('submit', (event) => {
+                        event.preventDefault();
+                        const rating = document.getElementById("rating").value;
+                        const review = document.getElementById("review").value;
+                        // Handle rating and review submission
+                        submitRatingAndReview('<%= comp.host._id %>', rating, review);
+                        // Close the modal
+                        rateModal.style.display = "none";
+                    });
+                });
+            }
+
+        });
+
+
+        // Function to end competition
+        const endCompetition = (competitionId) => {
+            if (confirm('Are you sure you want to end this competition?')) {
+                const endpoint = `/competitions/${competitionId}/end`;
+    
+                fetch(endpoint, {
+                    method: 'POST'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Reload the page or update the UI as needed
+                        window.location.reload();
+                    } else {
+                        // Handle errors
+                        console.error('Error ending competition');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        };
+    
+        // Delete competition function
+        const deleteCompetition = (competitionId) => {
+            if (confirm('Are you sure you want to delete this competition?')) {
+                const endpoint = `/competitions/${competitionId}/delete`;
+    
+                fetch(endpoint, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Reload the page or update the UI as needed
+                        window.location.href = '/competitions/home';
+                    } else {
+                        // Handle errors
+                        console.error('Error deleting competition');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        };
+    
+        // Delete announcement function
+        const deleteAnnouncement = (competitionId, announcementIndex) => {
+            if (confirm('Are you sure you want to delete this announcement?')) {
+                const endpoint = `/competitions/${competitionId}/${announcementIndex}/delete`;
+    
+                fetch(endpoint, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Reload the page or update the UI as needed
+                        location.reload();
+                    } else {
+                        // Handle errors
+                        console.error('Error deleting announcement');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        };
+
+        // Function to submit rating and review
+        const submitRatingAndReview = (hostId, rating, review) => {
+            // Send the data to the server via fetch or another method
+            // Example fetch request:
+            const endpoint = `/competitions/rate/${hostId}`;
+            fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ rating: rating, review: review })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success response
+                    console.log('Rating and review submitted successfully');
+                } else {
+                    // Handle error response
+                    console.error('Error submitting rating and review');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        };
+
+        // Check if submission completed flag is set on the home page
+        // if (sessionStorage.getItem('submissionCompleted')) {
+        //     // Replace current URL with a new URL (e.g., 404 page)
+        //     history.replaceState(null, '', '/login');
+        // }
+
+        // // Listen for popstate event to handle back button
+        // window.addEventListener('popstate', function(event) {
+        //     // Check if submission completed flag is set
+        //     if (sessionStorage.getItem('submissionCompleted')) {
+        //         // Redirect user to 404 page
+        //         window.location.href = "/login";
+        //     }
+        // });
+
+    </script>
+
+</body>
+</html>
