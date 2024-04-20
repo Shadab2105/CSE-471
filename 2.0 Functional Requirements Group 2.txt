@@ -1,4 +1,4 @@
-﻿ONLINE COMPETITION MANAGEMENT PLATFORM (BRAC)
+﻿ONLINE COMPETITION COMPETITION HOSTING PLATFORM (BRAC)
 
 
 Functional Requirements
@@ -10,8 +10,8 @@ MODULE1: LOGIN SIGNUP AND HOMEPAGE (5)
 * Click forget password to reset password by using questionnaires set by users during signup
 
 
-• Homepage(2)
-* Two views, an initial homepage with basic information and the ability to see a list of available competitions.
+• Homepage(3)
+* THREE views(users, admins, hosts), an initial homepage with basic information and the ability to see a list of available competitions.
 * After logging in the user can manage their profile, including personal information.
 * Can also see the history of competitions participated in.
 
@@ -40,7 +40,7 @@ MODULE2: COMPETITION MANAGEMENT (5)
 
 
 • Online Submissions 
-* Certain competitions will require an entry submission which hosts can see and review.
+# * Certain competitions will require an entry submission which hosts can see and review.
 * This will also allow competitions to be hosted entirely online, through rounds of submissions and reviews.
 
 
@@ -56,12 +56,14 @@ MODULE3: JUDGE PANEL AND VOTING (5)
 * Display rankings of participants based on votes/scores.
 
 
+• Multipe Types of question formats - MCQ/file submissions
+
+
 # • Prize management.
 # * Hosts can specify and send competition prizes online where applicable(monetary).
 
 
-• Voting Mechanism
-* Certain competitions can be see-all instead of having judge panels, and users can vote on submissions where the highest voted submission wins.
+• Voting/scoring Mechanism
 
 
 • Multiple Rounds
@@ -94,3 +96,6 @@ MODULE4: COMMUNICATION (7)
 • Feedback system (2)
 * Users can send feedback to hosts regarding competitions on what can be improved.
 * Users can rate competition hosts.
+
+
+• Deadlines to impose a time pressure for certain question sets to give real time pressure
