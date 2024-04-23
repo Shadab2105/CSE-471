@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
 const userSchema = new Schema({
     fullname: {
         type: String,
@@ -100,6 +101,7 @@ const userSchema = new Schema({
     }]
 });
 
+
 const adminSchema = new Schema({
     username: {
         type: String,
@@ -126,6 +128,7 @@ const adminSchema = new Schema({
         default: true
     }
 });
+
 
 const applicantSchema = new mongoose.Schema({
     user: {
@@ -168,6 +171,7 @@ const commentSchema = new Schema({
         default: Date.now
     }
 });
+
 
 const announcementSchema = new Schema({
     type: {
@@ -282,6 +286,7 @@ const competitionSchema = new Schema({
     }],
     announcements: [announcementSchema]
 }, { timestamps: true });
+
 
 // whyyyyyy does mongoose capitalization+pluralization exist man whyyy
 const User = mongoose.model('User', userSchema);

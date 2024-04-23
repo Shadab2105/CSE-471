@@ -1,5 +1,6 @@
 const {User, Admin, Applicant, Competition} = require('../models/schemas');
 
+
 const get_adminUsers =  async (req, res) => {
     try {
       const user = req.session.user;
@@ -80,6 +81,7 @@ const post_rejectApplicant = async (req, res) => {
 };
 
 
+// problems === deleting a user requires removal of the user from all others users followers or follows as well as from all competition participants also from competition host if the user has hosted competitions
 const delete_user = async (req, res) => {
     const userId = req.params.id;
 
