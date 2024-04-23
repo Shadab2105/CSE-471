@@ -171,7 +171,41 @@ const get_myComps = async (req, res) => {
 };
 
 
+const post_rate = async (req, res) => {
+  const { hostId } = req.params;
+  const { rating, review } = req.body;
+  const currentUserId = req.session.user._id;
 
+  try {
+
+      const host = await User.findById(hostId);
+      const currentUser = await User.findById(currentUserId);
+
+      if (!host || !currentUser) {
+          return res.status(404).render('404', { title: 'User not found' });
+      }
+
+      host.reviews.push({
+          reviewerId: currentUser._id,
+          reviewerUsername: currentUser.username,
+          content: review,
+          rating: rating
+      });
+
+      // Calculate the new average rating
+      const totalRatings = host.reviews.reduce((total, review) => total + review.rating, 0);
+      const avgRating = totalRatings / host.reviews.length;
+      host.avgRating = avgRating;
+
+      await host.save();
+
+      res.status(200).json({ message: 'Rating and review submitted successfully' });
+  } catch (error) {
+      // Handle errors
+      console.error('Error submitting rating and review:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 
 module.exports = {
@@ -183,5 +217,6 @@ module.exports = {
   post_createcomp,
   post_joinCompetition,
   get_myComps,
+  post_rate
 
 };
