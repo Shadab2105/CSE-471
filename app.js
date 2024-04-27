@@ -2,9 +2,7 @@ const express=  require('express');
 const session = require('express-session');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const compRoutes = require('./routes/compRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const unlogRoutes = require('./routes/unlogRoutes');
 const path = require('path');
 
 
